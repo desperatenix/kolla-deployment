@@ -29,7 +29,7 @@ ARG KOLLA_VERSION
 FROM ansible as kolla_stage
 
 RUN pip3 install --no-cache-dir  git+https://opendev.org/openstack/kolla-ansible@stable/${KOLLA_VERSION} \
-    oauth2 as oauth \
+    oauth2 \
     requests \
     requests_cache \
     && kolla-ansible install-deps
