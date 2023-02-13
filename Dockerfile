@@ -29,6 +29,9 @@ ARG KOLLA_VERSION
 FROM ansible as kolla_stage
 
 RUN pip3 install --no-cache-dir  git+https://opendev.org/openstack/kolla-ansible@stable/${KOLLA_VERSION} \
+    oauth2 as oauth \
+    requests \
+    requests_cache \
     && kolla-ansible install-deps
 
 FROM ubuntu:${UBUNTU_VERSION} as kolla_base
@@ -46,5 +49,5 @@ WORKDIR /etc/kolla
 ENV PATH="/etc/kolla/.local/bin:$PATH"
 
 FROM kolla_base as deployment
-COPY --from=kolla_stage /etc/kolla/.ansible .ansible
-COPY --from=kolla_stage /etc/kolla/.local .local
+COPY --from=kolla_stage --chown=kolla:kolla /etc/kolla/.ansible .ansible
+COPY --from=kolla_stage --chown=kolla:kolla /etc/kolla/.local .local
