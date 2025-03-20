@@ -26,7 +26,7 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build and push Zed
+      - name: Build and push 2024.2
         uses: docker/build-push-action@v4
         with:
           context: .
@@ -36,20 +36,7 @@ jobs:
           cache-to: type=gha,mode=max
           tags: |
             desperate/kolla-deploy:latest
-            desperate/kolla-deploy:zed
+            desperate/kolla-deploy:2024.2
           build-args: |
-            KOLLA_VERSION=zed
-            UBUNTU_VERSION=jammy
-      - name: Build and push Yoga
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          platforms: linux/amd64,linux/arm64
-          push: true
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-          tags: |
-            desperate/kolla-deploy:yoga
-          build-args: |
-            KOLLA_VERSION=yoga
-            UBUNTU_VERSION=focal
+            KOLLA_VERSION=2024.2
+            DEBIAN_VERSION=12.10-slim
